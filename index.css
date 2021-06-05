@@ -53,7 +53,7 @@ section > div {
     fill: green;
 }
 .links a img:hover {
-    border-bottom: 1px solid #5870ff;
+    border-bottom-color: #5870ff;
 }
 
 .entries {
