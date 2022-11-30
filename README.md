@@ -1,4 +1,4 @@
-This repo contains the [grunseid.com](grunseid.com) website.
+This repo contains the [grunseid.com](https://grunseid.com) website.
 
 # Development
 
