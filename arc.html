@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <title>
+      Arc - Virtual Machines in the Browser
+    </title>
+    <style type="text/css">
+      html, body, p, pre, ol, li {
+        margin:0px;
+        padding:0px;
+      }
+      .left {
+        float:left;
+      }
+      .right {
+        float:right;
+      }
+      body {
+        color:#000;
+        background-color:#fff;
+        font-family: Georgia, serif;
+      }
+      a {
+      /*color:#6B9BE6;*/
+      color:rgb(66, 129, 226);
+      /*color:rgb(71, 71, 224);*/
+      }
+      #title {
+        font-size:1.5em;
+        text-align:center;
+      }
+      .title-text {
+        margin:6px 0px;
+      }
+      .sub-header {
+        font-size:0.7em;
+      }
+      .sub-header a {
+        line-height:1em;
+      }
+      .sub-header span {
+        color:#676767;
+      }
+      .title-separator {
+        height:1px;
+        margin:16px 0px;
+        border-width:0px;
+        background-color:#ccc;
+      }
+      #post-body {
+        width:480px;
+        font-size:1em;
+        margin:24px auto;
+      }
+      #post-body p {
+        line-height:1.6;
+        margin-bottom:18px;
+      }
+      #post-body p.section-header {
+        color:#2a2a2a;
+        font-family:verdana;
+        font-size:1em;
+        font-weight:bold;
+        margin-bottom:6px !important;
+      }
+      #post-body pre {
+        font-size:1.1em;
+      }
+      .indent {
+        margin:0px 0px 18px 20px;
+      }
+      ol {
+        margin:0px 0px 18px 44px;
+      }
+      ol li {
+        margin:18px 0px;
+      }
+      .thanks {
+        color:#777;
+      }
+    </style>
+  </head>
+  <body>
+    <article id="post-body">
+      <div id="title">
+        <div class="title-text">
+          Virtual Machines in the Browser
+        </div>
+        <div class="sub-header">
+          <a href="mailto:grun@arc.io">Ansgar Grunseid</a><span class="date">, August 15th 2013</span>
+        </div>
+      </div>
+      <hr class="title-separator" />
+      <p>
+        I want to build apps in Python and C and ship them in the browser. I
+        can't.
+      </p>
+      <p>
+        I ran full steam into this problem when I built Dirpy, a web app that
+        records MP3s from YouTube. I could have built a native app in Python and
+        C, but to test, distribute, and maintain builds for every OS is a total
+        nightmare. So I built Dirpy as a web app, did all the work on servers,
+        and paid $10,000 every month in hosting costs.
+      </p>
+      <p>
+        This was painful, expensive, and inefficient. Clients are more than
+        capable of transcoding video; the problem is browsers aren't. Browsers
+        can't run Linux software like ffmpeg, can't run Python, can't reach
+        native performance, and can't make cross-domain requests.
+      </p>
+      <p>
+        Why can't I distribute native apps like web apps that are
+        cross-platform, always up-to-date, securely sandboxed, and don't need to
+        be installed? Why can't I have the freedom to build such apps with the
+        languages, libraries, and network protocols of my choice? It doesn't
+        matter if I build for the web or build for native, I still have to
+        settle for software that falls short of its potential.
+      </p>
+      <p>
+        I'm tired of settling. So I built Arc.
+      </p>
+
+      <p class="section-header">
+        Arc
+      </p>
+      <p>
+        Arc gives websites a Linux virtual machine on every client.
+      </p>
+      <p>
+        It runs native software in independent, lightweight virtual machines and
+        is accessible from websites with arc.js, a Javascript library that gives
+        browsers access to Arc's API.
+      </p>
+      <p>
+        Arc apps have full access to the facilities of their Linux virtual
+        machine. They can spawn threads and processes, read and write to an
+        internal filesystem, and make full use of their virtual machine's
+        graphics, audio, and network adapters.  Cross-platform differences are
+        virtualized away -- Arc apps behave identically on OS X, Linux, and
+        Windows. And because Arc apps are securely isolated in their virtual
+        machines, they can't corrupt the host, either through malice or
+        accident.
+      </p>
+
+      <p class="section-header">
+        Who is Arc for?
+      </p>
+      <p>
+        Arc is for developers who want both the power and flexibility of native
+        apps and the distribution of web apps.
+      </p>
+      <p>
+        Developers can save thousands of dollars in hosting costs by packaging
+        services in Arc apps and pushing them to clients. It's easy to migrate
+        server work to clients because Arc apps are just Linux VMs; existing
+        Linux binaries work as-is.
+      </p>
+      <p>
+        Web developers can augment existing web apps with native code in three
+        lines. Opening an Arc app with arc.js to securely run C, Python,
+        Node.js, PHP, Go, Ruby, Lua, or anything else on the client is as easy
+        as
+      </p>
+      <!--
+      <pre class="indent">
+arc.openApp('http://peggo.co/app/ArcManifest.yaml', function(app) {
+  // App opened successfully. Accomplish wonders.
+});</pre>
+      -->
+      <pre class="indent" style="line-height: 125%">arc.openApp(<span style="color:rgb(108, 108, 250);">&#39;http://peggo.co/app/ArcManifest.yaml&#39;</span>, <span style="color: #000080; font-weight: bold">function</span>(app) {
+  <span style="color: #008800">// App opened successfully. Accomplish wonders.</span>
+});</pre>
+      </pre>
+
+      <p class="section-header">
+        Peggo
+      </p>
+      <p>
+        To build a better YouTube recorder, dogfood Arc and arc.js, and put my
+        money where my mouth is, I built Peggo.
+      </p>
+      <p class="indent">
+        <a href="http://peggo.co/" target="_new">http://peggo.co/</a>
+      </p>
+      <p>
+        Peggo is a web app with an Arc engine. The frontend is a website, HTML
+        styled with CSS and a smidge of controlling Javascript, but the magic is
+        the backend: an Arc app written in Python that does all the transcoding
+        securely on clients.
+      </p>
+      <p>
+        For a sense of Arc's potency, Peggo is 1,000 lines of Python compared to
+        Dirpy's 15,000. Many of those 15,000 lines were to scale Dirpy across
+        two dozen servers in three datacenters -- scaling not required with
+        Arc. Instead of scaling Peggo, I just built a little app that ran on my
+        development machine and dropped it in Arc. Now it runs everywhere.
+      </p>
+  
+      <p class="section-header">
+        How does Arc work?
+      </p>
+      <p>
+        Arc is architecturally similar to a headless browser. Arc apps are
+        defined by a manifest (think index.html) and opened from a URL, just
+        like a web page. And just like a browser retrieves CSS and Javascript
+        files to assemble a web page, Arc retrieves files used by Arc apps to
+        assemble Linux virtual machines.
+      </p>
+      <p>
+        An Arc app's manifest is comprised of four simple things
+      </p>
+      <ol>
+        <li>Metadata, like the app's name and icon.</li>
+        <li>Ports to expose.</li>
+        <li>Files to retrieve.</li>
+        <li>Commands to run.</li>
+      </ol>
+      <p>
+        When an Arc app is opened, Arc
+      </p>
+      <ol>
+        <li>Downloads the app's manifest.</li>
+        <li>Creates a new virtual machine for that app.</li>
+        <li>
+          Retrieves all files specified in the manifest and places them in the
+          virtual machine's filesystem.
+        </li>
+        <li>Runs all shell commands specified in the manifest.</li>
+      </ol>
+      <p>
+        When the last shell command completes, the app is ready to use.
+      </p>
+
+      <p class="section-header">
+        Performance
+      </p>
+      <p>
+        Arc uses VirtualBox, so runtime performance is near-native.
+      </p>
+      <p>
+        Startup performance is also good. On my MacBook Air, Peggo's Arc app is
+        created and assembled from scratch in 1.3 seconds. This 1.3 second
+        startup is further hidden with arc.js, which loads the Arc app in
+        background when any peggo.co page is opened, even if the app isn't
+        needed immediately. The Arc app is then preserved and shared among all
+        peggo.co tabs.
+      </p>
+
+      <p class="section-header">
+        Current state
+      </p>
+      <p>
+        Arc works. It's in beta, so there are burrs, but it works. People use
+        Peggo every day.
+      </p>
+      <p>
+        Arc is only packaged for OS X right now. It will be packaged and
+        available for Ubuntu and Windows soon. The installer is a heavy
+        140MB, of which VirtualBox makes up 100MB, and will be slimmed
+        down. (Update: OS X installer is now 60MB).
+      </p>
+      <p>
+        I've built lean versions of Python, Node.js, and Ruby for use in Arc
+        apps. Of course any language works as-is, it's just probably bigger than
+        it needs to be. Language runtimes in Arc apps don't need docs, tests,
+        build tools, etc.
+      </p>
+      <p>
+        Documentation for Arc and arc.js is forthcoming. (Update:
+        <a href="http://arc.io" target="_new">http://arc.io</a>).
+      </p>
+
+      <p class="section-header">
+        The opportunity
+      </p>
+      <p>
+        As developers, we've built amazing native apps and amazing web apps, but
+        with Arc we can build something even more amazing: apps that are the
+        best of both.
+      </p>
+      <p>
+        Arc is an opportunity to unshackle the latent power in clients -- the
+        power we need to continue the transition from native to web -- and
+        retain the web's distribution model.
+      </p>
+      <p>
+        Your input is helpful as Arc advances. What will you build with
+        Arc? <a href="mailto:team@arc.io">Let me know</a>.
+      </p>
+      <p>
+        &nbsp;
+      </p>
+      <p>
+        &nbsp;
+      </p>
+
+      <!--
+      <p class="thanks">
+        Thank you to <a href="http://github.com/d-v-b">Davis
+        Bennett</a>, <a href="http://www.chris-granger.com/">Chris
+        Granger</a>, <a href="https://twitter.com/ibdthor">Robert Attorri</a>,
+        and <a href="https://twitter.com/stefan_nikolic">Stefan Nikolic</a> for
+        their feedback on drafts of this post.
+      </p>
+      -->
+    </article>
+
+    <script type="text/javascript">
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-42850234-1']);
+      _gaq.push(['_setDomainName', 'grunseid.com']);
+      _gaq.push(['_trackPageview']);
+      (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+    </script>
+
+    <script async src="https://arc.io/widget.js?LjCpWb6H36gGyiu7vRJaNW"></script>
+  </body>
+</html>
